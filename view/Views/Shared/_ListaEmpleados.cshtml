@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Empleados</title>
+</head>
+<body>
+    <table id="tablaEmpleados" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre Completo</th>
+                <th>Email</th>
+                <th>Puesto</th>
+                <th>RFC</th>
+                <th>Fecha de Alta</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var empleado in Model)
+            {
+                <tr>
+                    <td>@(empleado.Nombre + " " + empleado.ApellidoPaterno + " " + empleado.ApellidoMaterno)</td>
+                    <td>@empleado.Email</td>
+                    <td>@empleado.Puesto</td>
+                    <td>@empleado.Rfc</td>
+                    <td>@empleado.FechaAlta?.ToShortDateString()</td>
+                    <td>
+                        <button class="btn btn-primary btnEditar" data-id="@empleado.EmpleadoId">Editar</button>
+                        <button class="btn btn-danger btnEliminar" data-id="@empleado.EmpleadoId">Eliminar</button>
+                        <button id="btnCrear" class="btn btn-primary">Crear Empleado</button>
+                        
+                     
+                        <button id="btnActualizar" class="btn btn-success">Actualizar</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="js/site.js"></script>
+</body>
+</html>

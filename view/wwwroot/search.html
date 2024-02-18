@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popup de Búsqueda</title>
+    <style>
+        /* Estilos para el formulario */
+        form {
+            max-width: 300px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+            button:hover {
+                background-color: #0056b3;
+            }
+
+        #resultadoBusqueda {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <form id="formBuscarEmpleado">
+        <div>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" placeholder="Ingrese el nombre">
+        </div>
+        <div>
+            <label for="rfc">RFC:</label>
+            <input type="text" id="rfc" placeholder="Ingrese el RFC">
+        </div>
+        <div>
+            <label for="fechaBaja">Fecha de Baja:</label>
+            <select id="fechaBaja">
+                <option value="">Seleccione</option>
+                <option value="true">Sí</option>
+                <option value="false">No</option>
+            </select>
+        </div>
+        <button type="button" id="btnBuscar">Buscar</button>
+    </form>
+
+    <div id="resultadoBusqueda"></div>
+
+    <script>
+        document.getElementById('btnBuscar').addEventListener('click', function () {
+            // Obtener los valores de los campos de búsqueda
+            const nombre = document.getElementById('nombre').value.toString();
+            const rfc = document.getElementById('rfc').value.toString();
+            const fechaBaja = document.getElementById('fechaBaja').value.toString();
+
+            // Realizar una solicitud AJAX al servidor para buscar empleados
+            fetch(`http://localhost:5010/api/Despacho/Buscar?nombre=${nombre}&rfc=${rfc}&fechaBaja=${fechaBaja}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Mostrar los resultados de la búsqueda en el área de resultados
+                    const resultadoBusqueda = document.getElementById('resultadoBusqueda');
+                    resultadoBusqueda.innerHTML = `
+                        <h3>Resultados de la búsqueda:</h3>
+                        ${data.map(empleado => `<p>${empleado.nombre} - ${empleado.rfc}</p>`).join('')}
+                    `;
+                })
+                .catch(error => {
+                    console.error('Error al buscar empleados:', error);
+                    alert('Error al buscar empleados');
+                });
+        });
+    </script>
+</body>
+</html>

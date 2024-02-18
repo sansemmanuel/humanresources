@@ -1,0 +1,57 @@
+﻿@model IEnumerable<DespachoContable.Models.Empleado>
+
+@{
+    ViewData["Title"] = "Lista de Empleados";
+}
+
+@section Content {
+    <h1>Lista de Empleados</h1>
+
+    <div class="row mb-3">
+        <div class="col">
+            <button id="btnCrear" class="btn btn-primary">Crear Empleado</button>
+        </div>
+        <div class="col-auto">
+            <input type="text" id="txtBuscar" class="form-control" placeholder="Buscar empleado...">
+        </div>
+        <div class="col-auto">
+            <button id="btnBuscar" class="btn btn-primary">Buscar</button>
+        </div>
+        <div class="col-auto">
+            <button id="btnActualizar" class="btn btn-primary">Actualizar</button>
+        </div>
+    </div>
+
+    <table id="tablaEmpleados" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre Completo</th>
+                <th>Email</th>
+                <th>Puesto</th>
+                <th>RFC</th>
+                <th>Fecha de Alta</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var empleado in Model)
+            {
+                <tr>
+                    <td>@(empleado.Nombre + " " + empleado.ApellidoPaterno + " " + empleado.ApellidoMaterno)</td>
+                    <td>@empleado.Email</td>
+                    <td>@empleado.Puesto</td>
+                    <td>@empleado.Rfc</td>
+                    <td>@(empleado.FechaAlta.HasValue ? empleado.FechaAlta.Value.ToShortDateString() : "")</td>
+                    <td>
+                        <button class="btn btn-primary btnEditar" data-id="@empleado.EmpleadoId">Editar</button>
+                        <button class="btn btn-danger btnEliminar" data-id="@empleado.EmpleadoId">Eliminar</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@section Scripts {
+    
+}
